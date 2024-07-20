@@ -21,10 +21,13 @@ function Index({ weatherData }) {
 }
 
 export async function getServerSideProps() {
-  const weatherResponse = await axios.post("http://localhost:5000/weather", {
-    coordinates: { lat: 19.076, lon: 72.8777 },
-    units: "imperial",
-  });
+  const weatherResponse = await axios.post(
+    "http://localhost:5000/api/weather",
+    {
+      coordinates: { lat: 19.076, lon: 72.8777 },
+      units: "imperial",
+    }
+  );
   const weatherData = weatherResponse.data;
 
   return {

@@ -1,56 +1,30 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const port = 5000;
-const { Pool } = require("pg");
 const dotenv = require("dotenv");
-const { OpenWeatherAPI } = require("openweather-api-node");
+const session = require("express-session");
+const { Pool } = require("pg");
+
+const authRoutes = require("./src/routes/authRoutes");
+const weatherRoutes = require("./src/routes/weatherRoutes");
 
 dotenv.config();
 
 app.use(express.json());
 app.use(cors());
+app.use("/api/auth", authRoutes);
+app.use("/api/weather", weatherRoutes);
 
-let weather = new OpenWeatherAPI({
-  key: process.env.open_weather_api_key,
-});
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  })
+);
 
-app.get("/", (req, res) => {
-  console.log(req.body);
-  res.json({ message: "complete" });
-});
-
-app.post("/weather", async (req, res) => {
-  const { units, coordinates } = req.body;
-  if (!coordinates || !units) {
-    return res.status(400).json({
-      message: "Failure",
-      error: "Location name and units are required.",
-    });
-  }
-  weather.setUnits(units);
-  weather.setLocationByCoordinates(coordinates.lat, coordinates.lon);
-  const [locationData, weatherData] = await Promise.all([
-    weather.getLocation(),
-    weather.getCurrent(),
-  ]);
-
-  console.log(locationData, weatherData);
-
-  weather.getCurrent().then((data) => {
-    res.status(200).json({
-      message: "success",
-      weatherData: {
-        name: locationData.name,
-        countryName: locationData.country,
-        icon: weatherData.weather.icon.url,
-        description: weatherData.weather.description,
-        temperature: weatherData.weather.temp.cur,
-      },
-    });
-  });
-});
-
+const port = 5000;
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
