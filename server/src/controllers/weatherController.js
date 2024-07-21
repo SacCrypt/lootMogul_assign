@@ -2,6 +2,7 @@ const { OpenWeatherAPI } = require("openweather-api-node");
 const logger = require("../../logger");
 
 async function weatherRoute(req, res) {
+  logger.debug("Hits weather API");
   let weather = new OpenWeatherAPI({
     key: process.env.open_weather_api_key,
   });

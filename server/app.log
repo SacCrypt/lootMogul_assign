@@ -1,0 +1,6 @@
+2024-07-21T07:30:00.675Z info: User sachin is registered successfully with role user
+2024-07-21T07:32:00.715Z error: Error registering user due to error: duplicate key value violates unique constraint "users_username_key"
+2024-07-21T07:32:37.588Z info: User balls is registered successfully with role user
+2024-07-21T07:32:57.422Z info: Invalid credentials
+2024-07-21T08:30:04.695Z error: Error logging in: ReferenceError: COOKIE_MAX_AGE is not defined
+2024-07-21T08:30:31.136Z error: Error logging in: TypeError: option maxAge is invalid

@@ -65,6 +65,7 @@ exports.login = async (req, res) => {
       const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
         expiresIn: "1h",
       });
+      res.cookie("token", token, { httpOnly: true });
       res.json({ token });
     } else {
       logger.info("Invalid credentials");
