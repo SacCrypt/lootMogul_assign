@@ -5,7 +5,6 @@ import nookies from "nookies";
 function Index({ newsData }) {
   const { name, countryName, icon, description, temperature } =
     newsData.newsData;
-  console.log(newsData);
   return (
     <div>
       {newsData.newsData.articles.map((article) => {
