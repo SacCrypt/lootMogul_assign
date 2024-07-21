@@ -1,4 +1,5 @@
 const { OpenWeatherAPI } = require("openweather-api-node");
+const logger = require("../../logger");
 
 async function weatherRoute(req, res) {
   let weather = new OpenWeatherAPI({
@@ -8,6 +9,7 @@ async function weatherRoute(req, res) {
   const { units, coordinates } = req.body;
 
   if (!coordinates || !units) {
+    logger.error("Coordinates and units are not passed along with request.");
     return res.status(400).json({
       message: "Failure",
       error: "Coordinates and units are required.",

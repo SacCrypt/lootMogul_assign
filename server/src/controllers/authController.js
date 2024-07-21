@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const { Pool } = require("pg");
+const logger = require("../../logger");
 
 dotenv.config();
 
@@ -16,6 +17,10 @@ exports.register = async (req, res) => {
     const { username, password, role = "user" } = req.body;
 
     if (!username || !password) {
+      logger.warning(
+        "Username or password are not passed along with request for registration"
+      );
+
       return res
         .status(400)
         .json({ message: "Username and password are required." });
@@ -27,10 +32,12 @@ exports.register = async (req, res) => {
         "INSERT INTO users (username, password, role) VALUES ($1, $2, $3)",
         [username, hashedPassword, role]
       );
-
+      logger.info(
+        `User ${username} is registered successfully with role ${role}`
+      );
       res.status(201).json({ message: "User registered successfully." });
     } catch (error) {
-      console.error("Error registering user:", error);
+      logger.error(`Error registering user due to ${error}`);
       res.status(500).json({ message: "Failed to register user." });
     }
   }
@@ -40,6 +47,9 @@ exports.login = async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
+    logger.warning(
+      "Username or password are not passed along with request for login."
+    );
     return res
       .status(400)
       .json({ message: "Username and password are required." });
@@ -57,10 +67,11 @@ exports.login = async (req, res) => {
       });
       res.json({ token });
     } else {
+      logger.info("Invalid credentials");
       res.status(401).json({ message: "Invalid credentials." });
     }
   } catch (error) {
-    console.error("Error logging in:", error);
+    logger.error(`Error logging in: ${error}`);
     res.status(500).json({ message: "Failed to log in." });
   }
 };

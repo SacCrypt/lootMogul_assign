@@ -3,7 +3,6 @@ const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-const logger = require("./logger");
 const authRoute = require("./src/routes/authRoutes");
 const weatherRoute = require("./src/routes/weatherRoutes");
 
