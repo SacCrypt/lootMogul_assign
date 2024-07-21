@@ -13,7 +13,6 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post("/api/login", { username, password });
-      const { token } = response.data;
 
       localStorage.setItem("token", response.data.token);
       router.push("/weather");
