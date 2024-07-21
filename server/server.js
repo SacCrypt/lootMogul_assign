@@ -6,6 +6,7 @@ const cookie_parser = require("cookie-parser");
 
 const authRoute = require("./src/routes/authRoutes");
 const weatherRoute = require("./src/routes/weatherRoutes");
+const newsRoute = require("./src/routes/newRoutes");
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(cookie_parser());
 
 app.use("/api/", authRoute);
 app.use("/api/weather", weatherRoute);
+app.use("/api/news", newsRoute);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
