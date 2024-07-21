@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
     const { username, password, role = "user" } = req.body;
 
     if (!username || !password) {
-      logger.warning(
+      logger.error(
         "Username or password are not passed along with request for registration"
       );
 
@@ -47,7 +47,7 @@ exports.login = async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    logger.warning(
+    logger.error(
       "Username or password are not passed along with request for login."
     );
     return res
