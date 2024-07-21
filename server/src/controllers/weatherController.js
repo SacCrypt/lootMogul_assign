@@ -10,7 +10,7 @@ async function weatherRoute(req, res) {
   if (!coordinates || !units) {
     return res.status(400).json({
       message: "Failure",
-      error: "Location name and units are required.",
+      error: "Coordinates and units are required.",
     });
   }
   weather.setUnits(units);
@@ -21,17 +21,15 @@ async function weatherRoute(req, res) {
     weather.getCurrent(),
   ]);
 
-  weather.getCurrent().then((data) => {
-    res.status(200).json({
-      message: "success",
-      weatherData: {
-        name: locationData.name,
-        countryName: locationData.country,
-        icon: weatherData.weather.icon.url,
-        description: weatherData.weather.description,
-        temperature: weatherData.weather.temp.cur,
-      },
-    });
+  res.status(200).json({
+    message: "success",
+    weatherData: {
+      name: locationData.name,
+      countryName: locationData.country,
+      icon: weatherData.weather.icon.url,
+      description: weatherData.weather.description,
+      temperature: weatherData.weather.temp.cur,
+    },
   });
 }
 module.exports = {
